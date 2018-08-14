@@ -21,6 +21,7 @@ To develop Azure Functions locally, you need to install the  [Azure Functions Co
 1. Create a new folder. From a command run `func init`
 2. Install the SignalR Service bindings `func extensions install -p AzureAdvocates.WebJobs.Extensions.SignalRService -v 0.2.0-alpha`
 3. Install the EventHub bindings `func extensions install --package Microsoft.Azure.WebJobs.Extensions.EventHubs --version 3.0.0-beta5`
+   >Install the Azure Storage emulator available [here](https://docs.microsoft.com/en-us/azure/storage/common/storage-use-emulator). Make sure to start it once it is install. The EventHub trigger will not work without it.
 
 4. Open local.settings.json. Add a new setting and call it AzureSignalRConnectionString. Paste the connection string from step 1.2 for the setting value.
 
@@ -90,7 +91,7 @@ Next, we need to create the function that will dispatch notifications to SignalR
       "type": "eventHubTrigger",
       "name": "eventHubMessage",
       "direction": "in",
-      "eventHubName": "<EVENTHUBNAME> ",
+      "eventHubName": "<EVENTHUBNAME>",
       "connection": "myEventHubReadConnectionAppSetting"
     },
     {
