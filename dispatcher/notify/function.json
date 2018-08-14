@@ -1,0 +1,18 @@
+{
+  "disabled": false,
+  "bindings": [
+    {
+      "type": "eventHubTrigger",
+      "name": "eventHubMessage",
+      "direction": "in",
+      "eventHubName": "hadrhub1",
+      "connection": "myEventHubReadConnectionAppSetting"
+    },
+    {
+      "type": "signalR",
+      "name": "signalRMessages",
+      "hubName": "notify",
+      "direction": "out"
+    }
+  ]
+}

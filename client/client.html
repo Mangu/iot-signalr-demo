@@ -1,0 +1,74 @@
+<html>
+
+<head>
+  <title>Notify</title>
+  <style>
+    #message-form, .ready #loading {
+      display: none;
+    }
+    .ready #message-form, #loading {
+      display: block;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="signalR Demo">
+   
+    <h2>Updates:</h2>
+    <hr/>
+    <ul id="messages"></ul>
+  </div>
+
+  <script src="https://unpkg.com/@aspnet/signalr@1.0.0-rc1-final/dist/browser/signalr.js"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script>
+    const apiBaseUrl = 'http://localhost:7071';
+    const hubName = 'notify';
+
+    getConnectionInfo().then(info => {      
+      let username="user";
+      while (!username && username !== null) {
+        username = prompt('Enter a username');
+      }
+      
+      if (username === null) return;
+      document.body.classList.add('ready');
+
+      const messageForm = document.getElementById('message-form');
+      const messageBox = document.getElementById('message-box');
+      const messages = document.getElementById('messages');
+      const options = {
+        accessTokenFactory: () => info.accessKey
+      };
+
+      const connection = new signalR.HubConnectionBuilder()
+        .withUrl(info.endpoint, options)
+        .configureLogging(signalR.LogLevel.Information)
+        .build();
+
+      connection.on('newMessage', (message) => {
+        const newMessage = document.createElement('li');
+        newMessage.appendChild(document.createTextNode(`${message}`));
+        messages.appendChild(newMessage);
+      });
+      connection.onclose(() => console.log('disconnected'));
+
+      console.log('connecting...');
+      connection.start()
+        .then(() => console.log('connected!'))
+        .catch(console.error);
+
+      
+    }).catch(alert);
+
+    function getConnectionInfo() {
+      return axios.post(`${apiBaseUrl}/api/negotiate`)
+        .then(resp => resp.data);
+    }
+
+   
+  </script>
+</body>
+
+</html>
