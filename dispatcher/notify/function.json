@@ -5,7 +5,7 @@
       "type": "eventHubTrigger",
       "name": "eventHubMessage",
       "direction": "in",
-      "eventHubName": "hadrhub1",
+      "eventHubName": "diazha1",
       "connection": "myEventHubReadConnectionAppSetting"
     },
     {

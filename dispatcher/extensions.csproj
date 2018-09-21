@@ -7,8 +7,9 @@
   <ItemGroup>
     <PackageReference Include="AzureAdvocates.WebJobs.Extensions.SignalRService" Version="0.2.0-alpha" />
     <PackageReference Include="Microsoft.Azure.WebJobs.Extensions.EventGrid" Version="2.0.0-beta1" />
-    <PackageReference Include="Microsoft.Azure.WebJobs.Extensions.EventHubs" Version="3.0.0-beta5" />
-    <PackageReference Include="Microsoft.Azure.WebJobs.Script.ExtensionsMetadataGenerator" Version="1.0.0-beta3" />
+    <PackageReference Include="Microsoft.Azure.WebJobs.Extensions.EventHubs" Version="3.0.0-beta8" />
+    <PackageReference Include="Microsoft.Azure.WebJobs.Extensions.SignalRService" Version="1.0.0-preview1-10002" />
+    <PackageReference Include="Microsoft.Azure.WebJobs.Script.ExtensionsMetadataGenerator" Version="1.0.0" />
     <PackageReference Include="Microsoft.Azure.WebJobs.ServiceBus" Version="3.0.0-beta5" />
   </ItemGroup>
 </Project>
