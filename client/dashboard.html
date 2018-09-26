@@ -37,21 +37,21 @@
 
     <main role="main" class="container">
 
-      <div class="row"><h2>Latest</h2></div> 
+      <div class="row"><h4>SCORE</h4></div> 
       <div class="row">
 
         <div class="col-md-2">
             <div class="card">
               <div class="card-block">
-                <h6 class="card-title">Value</h6>
-                <h2 id="value1" class="card-text"></h2>             
+                <h6 class="card-title">Devices</h6>
+                <h2 id="value1" class="card-text">O</h2>             
               </div>
             </div>
         </div>
         <div class="col-md-2">
             <div class="card">
               <div class="card-block">
-                <h6 class="card-title">Value</h6>
+                <h6 class="card-title">Votes</h6>
                 <h2 id="value2" class="card-text"></h2>             
               </div>
             </div>
@@ -59,7 +59,7 @@
         <div class="col-md-2">
             <div class="card">
               <div class="card-block">
-                <h6 class="card-title">Value</h6>
+                <h6 class="card-title">Score</h6>
                 <h2 id="value3" class="card-text"></h2>             
               </div>
             </div>
@@ -67,7 +67,7 @@
         <div class="col-md-2">
             <div class="card">
               <div class="card-block">
-                <h6 class="card-title">Value</h6>
+                <h6 class="card-title">Temperature</h6>
                 <h2 id="value4" class="card-text"></h2>             
               </div>
             </div>
@@ -75,14 +75,28 @@
         <div class="col-md-2">
             <div class="card">
               <div class="card-block">
-                <h6 class="card-title">Value</h6>
+                <h6 class="card-title">Humidity</h6>
                 <h2 id="value5" class="card-text"></h2>             
               </div>
             </div>
         </div>
     </div>
-    <div class="row"><h2>Updates</h2></div> 
-    <div class="row">
+    <hr>
+    <div class="row"><hr/></div> 
+    <div class="row"><h4>VOTES</h4></div> 
+    <div class="row"> 
+        <table id="eventlog" class="table table-striped">
+                <thead class="thead-light">
+                  <tr>
+                    <th scope="col">Time Stamp</th>
+                    <th scope="col">Device</th>
+                    <th scope="col">Location</th>
+                    <th scope="col">Vote</th>
+                    <th scope="col">Humidity</th>
+                    <th scope="col">Temperature</th>                    
+                  </tr>
+                </thead>
+        </table>              
         <ul id="updates"></ul>
     </div>
 
@@ -104,7 +118,7 @@
     
     <script>
       //const apiBaseUrl = 'https://iot-signalr.azurewebsites.net';
-      const apiBaseUrl = 'http://localhost:7071';
+      const apiBaseUrl = 'https://iot-signalr.azurewebsites.net';
       const hubName = 'notify';
   
       getConnectionInfo().then(info => { 
@@ -125,6 +139,8 @@
         const value5 = document.getElementById('value5');
 
         const updates = document.getElementById('updates');
+        const eventlog = document.getElementById('eventlog');
+        const maxLogs = 20;
 
         const options = {
           accessTokenFactory: () => info.accessToken
@@ -137,16 +153,29 @@
   
         connection.on('newMessage', (message) => {
             let msg = JSON.parse(message);
-            value1.innerText = Math.round(msg.temperature);
+            
             value2.innerText = Math.round(msg.humidity);
             value3.innerText = Math.round(msg.light);
             value4.innerText = Math.round(msg.sound);
-            value5.innerText = Math.round(msg.count);      
+            value5.innerText = Math.round(msg.count); 
             
-            const newMessage = document.createElement('li');
-            newMessage.appendChild(document.createTextNode(`${message}`));
-            updates.appendChild(newMessage);
+            var row = eventlog.insertRow(1);
+            var ts = new Date();
+               
+            row.insertCell(0).innerText =  ts.toLocaleTimeString();
+            row.insertCell(1).innerText =  Math.round(msg.count);
+            row.insertCell(2).innerText =  Math.round(msg.light);
+            row.insertCell(3).innerText =  Math.round(msg.sound);
+            row.insertCell(4).innerText =  Math.round(msg.temperature);
+            row.insertCell(5).innerText =  Math.round(msg.humidity);
+            
+             if(eventlog.rows.length > maxLogs)
+                eventlog.deleteRow(maxLogs)
           
+        });
+
+        connection.on('newDevice', (message) => {
+            value1.innerText = message;
         });
         connection.onclose(() => console.log('disconnected'));
   
