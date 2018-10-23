@@ -4,6 +4,12 @@
       "type": "eventGridTrigger",
       "name": "eventGridEvent",
       "direction": "in"
+    },
+    {
+      "type": "signalR",
+      "name": "signalRMessages",
+      "hubName": "notify",
+      "direction": "out"
     }
   ],
   "disabled": false

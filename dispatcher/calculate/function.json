@@ -2,12 +2,14 @@
   "disabled": false,
   "bindings": [
     {
-      "type": "eventHubTrigger",
-      "name": "eventHubMessage",
+      "authLevel": "function",
+      "type": "httpTrigger",
       "direction": "in",
-      "eventHubName": "diazhub",
-      "cardinality": "many",
-      "connection": "myEventHubReadConnectionAppSetting"
+      "name": "req",
+      "methods": [
+        "get",
+        "post"
+      ]
     },
     {
       "type": "signalR",
